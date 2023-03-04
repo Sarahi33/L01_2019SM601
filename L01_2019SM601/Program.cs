@@ -8,11 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Inyeccion por dependencia del string de conexion al conetxto
-builder.Services.AddDbContext<entidadesContext>(options => options.UseSqlServer(
+// Inyeccion por dependencia del string de conexion al contexto
+builder.Services.AddDbContext<clientesContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("entidadesDbConnection")
     )
     );
+builder.Services.AddControllers();
+// Inyeccion por dependencia del string de conexion al contexto
+builder.Services.AddDbContext<motoristaContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("entidadesDbConnection")
+    )
+    );
+// Inyeccion por dependencia del string de conexion al contexto
+builder.Services.AddDbContext<platoContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("entidadesDbConnection")
+    )
+    );
+
 
 
 

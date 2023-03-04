@@ -1,16 +1,14 @@
 ﻿using L01_2019SM601.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
 namespace L01_2019SM601.Controllers
 {
-    public class motoristaController : ControllerBase
+    public class platoController : ControllerBase
     {
-        private readonly motoristaContext _entidadesContexto;
+        private readonly platoContext _entidadesContexto;
 
-        public motoristaController(motoristaContext entidadesContexto)
+        public platoController(platoContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -20,7 +18,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<motorista> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<plato> listadoEntidades = (from e in _entidadesContexto.entidades
                                                 select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -36,24 +34,25 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            motorista? motorista = (from e in _entidadesContexto.entidades
-                                    where e.motoristaId == id
+            plato? plato = (from e in _entidadesContexto.entidades
+                                    where e.platoId == id
                                     select e).FirstOrDefault();
 
-            if (motorista == null)
+            if (plato == null)
             {
                 return NotFound();
             }
-            return Ok(motorista);
+            return Ok(plato);
 
         }
+
         [HttpGet]
         [Route("Find/{filtro}")]
 
         public IActionResult FindbyDescription(String filtro)
         {
-            motorista? entidades = (from e in _entidadesContexto.entidades
-                                    where e.nombreMotorista.Contains(filtro)
+            plato? entidades = (from e in _entidadesContexto.entidades
+                                    where e.nombrePlato.Contains(filtro)
                                     select e).FirstOrDefault();
 
             if (entidades == null)
@@ -66,7 +65,7 @@ namespace L01_2019SM601.Controllers
         [HttpPost]
         [Route("Add")]
 
-        public IActionResult GuardarEntidades([FromBody] motorista entidades)
+        public IActionResult GuardarEntidades([FromBody] plato entidades)
         {
 
             try
@@ -86,18 +85,18 @@ namespace L01_2019SM601.Controllers
         [HttpPut]
         [Route("actualizar/{id}")]
 
-        public IActionResult ActualizarEntidades(int id, [FromBody] motorista entidadesModificar)
+        public IActionResult ActualizarEntidades(int id, [FromBody] plato entidadesModificar)
         {
-            motorista? entidadesActual = (from e in _entidadesContexto.entidades
-                                          where e.motoristaId == id
+            plato? entidadesActual = (from e in _entidadesContexto.entidades
+                                          where e.platoId == id
                                           select e).FirstOrDefault();
             if (entidadesActual == null)
             {
                 return NotFound(id);
             }
 
-            entidadesActual.nombreMotorista = entidadesModificar.nombreMotorista;
-           
+            entidadesActual.nombrePlato = entidadesModificar.nombrePlato;
+            entidadesActual.precio = entidadesModificar.precio;
 
 
             _entidadesContexto.Entry(entidadesActual).State = EntityState.Modified;
@@ -111,8 +110,8 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            motorista? entidades = (from e in _entidadesContexto.entidades
-                                    where e.motoristaId == id
+            plato? entidades = (from e in _entidadesContexto.entidades
+                                    where e.platoId == id
                                     select e).FirstOrDefault();
 
             if (entidades == null)
@@ -124,8 +123,5 @@ namespace L01_2019SM601.Controllers
 
             return Ok(entidades);
         }
-
-
-
     }
 }

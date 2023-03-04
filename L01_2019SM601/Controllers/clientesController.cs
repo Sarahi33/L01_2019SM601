@@ -8,9 +8,9 @@ namespace L01_2019SM601.Controllers
 {
     public class clientesController : ControllerBase
     {
-        private readonly entidadesContext _entidadesContexto;
+        private readonly clientesContext _entidadesContexto;
 
-        public clientesController(entidadesContext entidadesContexto)
+        public clientesController(clientesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -20,7 +20,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<entidades> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<clientess> listadoEntidades = (from e in _entidadesContexto.entidades
                                              select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -36,7 +36,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            entidades? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.entidades
                                     where e.clienteId == id
                                     select e).FirstOrDefault();
 
@@ -52,7 +52,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult FindbyDescription(String filtro)
         {
-            entidades? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.entidades
                                where e.nombreCliente.Contains(filtro)
                                select e).FirstOrDefault();
 
@@ -66,7 +66,7 @@ namespace L01_2019SM601.Controllers
         [HttpPost]
         [Route("Add")]
 
-        public IActionResult GuardarEntidades([FromBody] entidades entidades)
+        public IActionResult GuardarEntidades([FromBody] clientess entidades)
         {
 
             try
@@ -86,9 +86,9 @@ namespace L01_2019SM601.Controllers
         [HttpPut]
         [Route("actualizar/{id}")]
 
-        public IActionResult ActualizarEntidades(int id, [FromBody] entidades entidadesModificar)
+        public IActionResult ActualizarEntidades(int id, [FromBody] clientess entidadesModificar)
         {
-            entidades? entidadesActual = (from e in _entidadesContexto.entidades
+            clientess? entidadesActual = (from e in _entidadesContexto.entidades
                                       where e.clienteId == id
                                       select e).FirstOrDefault();
             if (entidadesActual == null)
@@ -111,7 +111,7 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            entidades? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.entidades
                                where e.clienteId == id
                                select e).FirstOrDefault();
 

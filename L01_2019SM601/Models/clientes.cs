@@ -2,14 +2,17 @@
 
 namespace L01_2019SM601.Models
 {
-    public class entidades
+    public class clientess
     {
         [Key]
         public int clienteId { get; set; }
         public string nombreCliente { get; set; }
         public string direccion { get; set; }
 
-        
+       
+
+
+
 
     }
 }
