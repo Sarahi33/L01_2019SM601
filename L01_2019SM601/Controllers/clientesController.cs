@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace L01_2019SM601.Controllers
 {
-    public class entidadesController : ControllerBase
+    public class clientesController : ControllerBase
     {
         private readonly entidadesContext _entidadesContexto;
 
-        public entidadesController(entidadesContext entidadesContexto)
+        public clientesController(entidadesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
