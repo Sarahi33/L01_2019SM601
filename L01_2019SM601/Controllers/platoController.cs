@@ -30,6 +30,7 @@ namespace L01_2019SM601.Controllers
         }
 
         [HttpGet]
+
         [Route("GetById/{id}")]
 
         public IActionResult Get(int id)
@@ -94,7 +95,7 @@ namespace L01_2019SM601.Controllers
             {
                 return NotFound(id);
             }
-
+            
             entidadesActual.nombrePlato = entidadesModificar.nombrePlato;
             entidadesActual.precio = entidadesModificar.precio;
 

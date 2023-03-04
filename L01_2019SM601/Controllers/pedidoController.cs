@@ -1,6 +1,120 @@
-﻿namespace L01_2019SM601.Controllers
+﻿using L01_2019SM601.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace L01_2019SM601.Controllers
 {
-    public class pedidoController
+    public class pedidoController : ControllerBase
     {
+        private readonly pedidoContext _entidadesContexto;
+
+        public pedidoController(pedidoContext entidadesContexto)
+        {
+            _entidadesContexto = entidadesContexto; ;
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+
+        public IActionResult Get()
+        {
+            List<pedido> listadoEntidades = (from e in _entidadesContexto.entidades
+                                                select e).ToList();
+
+            if (listadoEntidades.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(listadoEntidades);
+
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+
+        public IActionResult Get(int id)
+        {
+            pedido? pedido = (from e in _entidadesContexto.entidades
+                                    where e.pedidoId == id
+                                    select e).FirstOrDefault();
+
+            if (pedido == null)
+            {
+                return NotFound();
+            }
+            return Ok(pedido);
+
+        }
+
+       
+
+        [HttpPost]
+        [Route("Add")]
+
+        public IActionResult GuardarEntidades([FromBody] pedido entidades)
+        {
+
+            try
+            {
+                _entidadesContexto.entidades.Add(entidades);
+                _entidadesContexto.SaveChanges();
+                return Ok(entidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+
+        }
+
+        [HttpPut]
+        [Route("actualizar/{id}")]
+
+        public IActionResult ActualizarEntidades(int id, [FromBody] pedido entidadesModificar)
+        {
+            pedido? entidadesActual = (from e in _entidadesContexto.entidades
+                                          where e.pedidoId == id
+                                          select e).FirstOrDefault();
+            if (entidadesActual == null)
+            {
+                return NotFound(id);
+            }
+
+            
+            entidadesActual.motoristaId = entidadesModificar.motoristaId;
+            entidadesActual.clienteId = entidadesModificar.clienteId;
+            entidadesActual.platoId = entidadesModificar.platoId;
+            entidadesActual.cantidad = entidadesModificar.cantidad;
+            entidadesActual.precio= entidadesModificar.precio;
+
+
+            _entidadesContexto.Entry(entidadesActual).State = EntityState.Modified;
+            _entidadesContexto.SaveChanges();
+            return Ok(entidadesModificar);
+        }
+
+        [HttpDelete]
+        [Route("eliminar/{id}")]
+
+        public IActionResult EliminarEntidades(int id)
+        {
+
+            pedido? entidades = (from e in _entidadesContexto.entidades
+                                    where e.pedidoId == id
+                                    select e).FirstOrDefault();
+
+            if (entidades == null)
+                return NotFound();
+
+            _entidadesContexto.entidades.Attach(entidades);
+            _entidadesContexto.entidades.Remove(entidades);
+            _entidadesContexto.SaveChanges();
+
+            return Ok(entidades);
+        }
+
+
+
     }
 }
