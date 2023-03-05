@@ -1,26 +1,22 @@
 using Microsoft.EntityFrameworkCore.SqlServer;
 using L01_2019SM601.Models;
 using Microsoft.EntityFrameworkCore;
-using L01_2019SM601.Controllers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // Inyeccion por dependencia del string de conexion al contexto
 builder.Services.AddDbContext<entidadesContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("entidadesDbConnection")
     )
 
     );
-
-
-
-
-
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

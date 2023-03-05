@@ -12,7 +12,7 @@ namespace L01_2019SM601.Controllers
         {
             _entidadesContexto = entidadesContexto; ;
         }
-
+        // ALL
         [HttpGet]
         [Route("GetAll")]
 
@@ -28,26 +28,10 @@ namespace L01_2019SM601.Controllers
             return Ok(listadoEntidades);
 
         }
-
-        [HttpGet]
-        [Route("GetById/{id}")]
-
-        public IActionResult Get(int id)
-        {
-            pedido? pedido = (from e in _entidadesContexto.pedidos
-                                    where e.pedidoId == id
-                                    select e).FirstOrDefault();
-
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-            return Ok(pedido);
-
-        }
+        
 
        
-
+        // ADD
         [HttpPost]
         [Route("Add")]
 
@@ -67,7 +51,7 @@ namespace L01_2019SM601.Controllers
             }
 
         }
-
+        // ACTUALIZAR
         [HttpPut]
         [Route("actualizar/{id}")]
 
@@ -94,6 +78,7 @@ namespace L01_2019SM601.Controllers
             return Ok(entidadesModificar);
         }
 
+        //ELIMINAR
         [HttpDelete]
         [Route("eliminar/{id}")]
 

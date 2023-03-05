@@ -33,12 +33,12 @@ namespace L01_2019SM601.Controllers
         }
 
         [HttpGet]
-        [Route("GetById/{id}")]
+        [Route("GetById/{name}")]
 
-        public IActionResult Get(int id)
+        public IActionResult GetNombre(String name)
         {
             clientess? entidades = (from e in _entidadesContexto.clientesses
-                                    where e.clienteId == id
+                                    where e.nombreCliente == name
                                     select e).FirstOrDefault();
 
             if (entidades == null)
@@ -48,22 +48,7 @@ namespace L01_2019SM601.Controllers
             return Ok(entidades);
 
         }
-        [HttpGet]
-        [Route("Find/{filtro}")]
-
-        public IActionResult FindbyDescription(String filtro)
-        {
-            clientess? entidades = (from e in _entidadesContexto.clientesses
-                               where e.nombreCliente.Contains(filtro)
-                               select e).FirstOrDefault();
-
-            if (entidades == null)
-            {
-                return NotFound();
-            }
-            return Ok(entidades);
-        }
-
+       
         [HttpPost]
         [Route("Add")]
 

@@ -1,6 +1,7 @@
 ﻿using L01_2019SM601.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace L01_2019SM601.Controllers
 {
@@ -13,6 +14,7 @@ namespace L01_2019SM601.Controllers
             _entidadesContexto = entidadesContexto; ;
         }
 
+        //ALL
         [HttpGet]
         [Route("GetAll")]
 
@@ -29,24 +31,25 @@ namespace L01_2019SM601.Controllers
 
         }
 
+        // GET
         [HttpGet]
+        [Route("GetByNombre/{name}")]
 
-        [Route("GetById/{id}")]
-
-        public IActionResult Get(int id)
+        public IActionResult GetNombre(string name)
         {
-            plato? plato = (from e in _entidadesContexto.platos
-                                    where e.platoId == id
-                                    select e).FirstOrDefault();
+            List<plato> listadoPlatos = (from e in _entidadesContexto.platos
+                                    where e.nombrePlato == name
+                                    select e).ToList();
 
-            if (plato == null)
+            if (listadoPlatos.Count == 0)
             {
                 return NotFound();
             }
-            return Ok(plato);
+            return Ok(listadoPlatos);
 
         }
 
+        //FILTRO
         [HttpGet]
         [Route("Find/{filtro}")]
 
@@ -63,6 +66,7 @@ namespace L01_2019SM601.Controllers
             return Ok(entidades);
         }
 
+        // ADD
         [HttpPost]
         [Route("Add")]
 
@@ -83,6 +87,7 @@ namespace L01_2019SM601.Controllers
 
         }
 
+        //ACTUALIZAR
         [HttpPut]
         [Route("actualizar/{id}")]
 
@@ -105,6 +110,7 @@ namespace L01_2019SM601.Controllers
             return Ok(entidadesModificar);
         }
 
+        // ELIMINAR
         [HttpDelete]
         [Route("eliminar/{id}")]
 

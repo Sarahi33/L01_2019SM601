@@ -14,7 +14,7 @@ namespace L01_2019SM601.Controllers
         {
             _entidadesContexto = entidadesContexto; ;
         }
-
+        // ALL
         [HttpGet]
         [Route("GetAll")]
 
@@ -32,12 +32,12 @@ namespace L01_2019SM601.Controllers
         }
 
         [HttpGet]
-        [Route("GetById/{id}")]
+        [Route("GetById/{name}")]
 
-        public IActionResult Get(int id)
+        public IActionResult Get(string name)
         {
             motorista? motorista = (from e in _entidadesContexto.motoristas
-                                    where e.motoristaId == id
+                                    where e.nombreMotorista == name
                                     select e).FirstOrDefault();
 
             if (motorista == null)
@@ -47,22 +47,8 @@ namespace L01_2019SM601.Controllers
             return Ok(motorista);
 
         }
-        [HttpGet]
-        [Route("Find/{filtro}")]
 
-        public IActionResult FindbyDescription(String filtro)
-        {
-            motorista? entidades = (from e in _entidadesContexto.motoristas
-                                    where e.nombreMotorista.Contains(filtro)
-                                    select e).FirstOrDefault();
-
-            if (entidades == null)
-            {
-                return NotFound();
-            }
-            return Ok(entidades);
-        }
-
+      
         [HttpPost]
         [Route("Add")]
 
