@@ -8,9 +8,9 @@ namespace L01_2019SM601.Controllers
 {
     public class motoristaController : ControllerBase
     {
-        private readonly motoristaContext _entidadesContexto;
+        private readonly entidadesContext _entidadesContexto;
 
-        public motoristaController(motoristaContext entidadesContexto)
+        public motoristaController(entidadesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -20,7 +20,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<motorista> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<motorista> listadoEntidades = (from e in _entidadesContexto.motoristas
                                                 select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -36,7 +36,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            motorista? motorista = (from e in _entidadesContexto.entidades
+            motorista? motorista = (from e in _entidadesContexto.motoristas
                                     where e.motoristaId == id
                                     select e).FirstOrDefault();
 
@@ -52,7 +52,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult FindbyDescription(String filtro)
         {
-            motorista? entidades = (from e in _entidadesContexto.entidades
+            motorista? entidades = (from e in _entidadesContexto.motoristas
                                     where e.nombreMotorista.Contains(filtro)
                                     select e).FirstOrDefault();
 
@@ -71,7 +71,7 @@ namespace L01_2019SM601.Controllers
 
             try
             {
-                _entidadesContexto.entidades.Add(entidades);
+                _entidadesContexto.motoristas.Add(entidades);
                 _entidadesContexto.SaveChanges();
                 return Ok(entidades);
             }
@@ -88,7 +88,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult ActualizarEntidades(int id, [FromBody] motorista entidadesModificar)
         {
-            motorista? entidadesActual = (from e in _entidadesContexto.entidades
+            motorista? entidadesActual = (from e in _entidadesContexto.motoristas
                                           where e.motoristaId == id
                                           select e).FirstOrDefault();
             if (entidadesActual == null)
@@ -111,15 +111,15 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            motorista? entidades = (from e in _entidadesContexto.entidades
+            motorista? entidades = (from e in _entidadesContexto.motoristas
                                     where e.motoristaId == id
                                     select e).FirstOrDefault();
 
             if (entidades == null)
                 return NotFound();
 
-            _entidadesContexto.entidades.Attach(entidades);
-            _entidadesContexto.entidades.Remove(entidades);
+            _entidadesContexto.motoristas.Attach(entidades);
+            _entidadesContexto.motoristas.Remove(entidades);
             _entidadesContexto.SaveChanges();
 
             return Ok(entidades);

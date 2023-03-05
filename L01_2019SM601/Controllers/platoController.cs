@@ -6,9 +6,9 @@ namespace L01_2019SM601.Controllers
 {
     public class platoController : ControllerBase
     {
-        private readonly platoContext _entidadesContexto;
+        private readonly entidadesContext _entidadesContexto;
 
-        public platoController(platoContext entidadesContexto)
+        public platoController(entidadesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -18,7 +18,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<plato> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<plato> listadoEntidades = (from e in _entidadesContexto.platos
                                                 select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -35,7 +35,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            plato? plato = (from e in _entidadesContexto.entidades
+            plato? plato = (from e in _entidadesContexto.platos
                                     where e.platoId == id
                                     select e).FirstOrDefault();
 
@@ -52,7 +52,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult FindbyDescription(String filtro)
         {
-            plato? entidades = (from e in _entidadesContexto.entidades
+            plato? entidades = (from e in _entidadesContexto.platos
                                     where e.nombrePlato.Contains(filtro)
                                     select e).FirstOrDefault();
 
@@ -71,7 +71,7 @@ namespace L01_2019SM601.Controllers
 
             try
             {
-                _entidadesContexto.entidades.Add(entidades);
+                _entidadesContexto.platos.Add(entidades);
                 _entidadesContexto.SaveChanges();
                 return Ok(entidades);
             }
@@ -88,7 +88,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult ActualizarEntidades(int id, [FromBody] plato entidadesModificar)
         {
-            plato? entidadesActual = (from e in _entidadesContexto.entidades
+            plato? entidadesActual = (from e in _entidadesContexto.platos
                                           where e.platoId == id
                                           select e).FirstOrDefault();
             if (entidadesActual == null)
@@ -111,15 +111,15 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            plato? entidades = (from e in _entidadesContexto.entidades
+            plato? entidades = (from e in _entidadesContexto.platos
                                     where e.platoId == id
                                     select e).FirstOrDefault();
 
             if (entidades == null)
                 return NotFound();
 
-            _entidadesContexto.entidades.Attach(entidades);
-            _entidadesContexto.entidades.Remove(entidades);
+            _entidadesContexto.platos.Attach(entidades);
+            _entidadesContexto.platos.Remove(entidades);
             _entidadesContexto.SaveChanges();
 
             return Ok(entidades);

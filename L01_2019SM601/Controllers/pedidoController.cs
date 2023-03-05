@@ -6,9 +6,9 @@ namespace L01_2019SM601.Controllers
 {
     public class pedidoController : ControllerBase
     {
-        private readonly pedidoContext _entidadesContexto;
+        private readonly entidadesContext _entidadesContexto;
 
-        public pedidoController(pedidoContext entidadesContexto)
+        public pedidoController(entidadesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -18,7 +18,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<pedido> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<pedido> listadoEntidades = (from e in _entidadesContexto.pedidos
                                                 select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -34,7 +34,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            pedido? pedido = (from e in _entidadesContexto.entidades
+            pedido? pedido = (from e in _entidadesContexto.pedidos
                                     where e.pedidoId == id
                                     select e).FirstOrDefault();
 
@@ -56,7 +56,7 @@ namespace L01_2019SM601.Controllers
 
             try
             {
-                _entidadesContexto.entidades.Add(entidades);
+                _entidadesContexto.pedidos.Add(entidades);
                 _entidadesContexto.SaveChanges();
                 return Ok(entidades);
             }
@@ -73,7 +73,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult ActualizarEntidades(int id, [FromBody] pedido entidadesModificar)
         {
-            pedido? entidadesActual = (from e in _entidadesContexto.entidades
+            pedido? entidadesActual = (from e in _entidadesContexto.pedidos
                                           where e.pedidoId == id
                                           select e).FirstOrDefault();
             if (entidadesActual == null)
@@ -100,15 +100,15 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            pedido? entidades = (from e in _entidadesContexto.entidades
+            pedido? entidades = (from e in _entidadesContexto.pedidos
                                     where e.pedidoId == id
                                     select e).FirstOrDefault();
 
             if (entidades == null)
                 return NotFound();
 
-            _entidadesContexto.entidades.Attach(entidades);
-            _entidadesContexto.entidades.Remove(entidades);
+            _entidadesContexto.pedidos.Attach(entidades);
+            _entidadesContexto.pedidos.Remove(entidades);
             _entidadesContexto.SaveChanges();
 
             return Ok(entidades);

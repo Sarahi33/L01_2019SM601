@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using L01_2019SM601.Models;
 using Microsoft.AspNetCore.Http;
 
+
 namespace L01_2019SM601.Controllers
 {
     public class clientesController : ControllerBase
     {
-        private readonly clientesContext _entidadesContexto;
+        private readonly entidadesContext _entidadesContexto;
 
-        public clientesController(clientesContext entidadesContexto)
+        public clientesController(entidadesContext entidadesContexto)
         {
             _entidadesContexto = entidadesContexto; ;
         }
@@ -20,7 +21,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get()
         {
-            List<clientess> listadoEntidades = (from e in _entidadesContexto.entidades
+            List<clientess> listadoEntidades = (from e in _entidadesContexto.clientesses
                                              select e).ToList();
 
             if (listadoEntidades.Count == 0)
@@ -36,7 +37,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult Get(int id)
         {
-            clientess? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.clientesses
                                     where e.clienteId == id
                                     select e).FirstOrDefault();
 
@@ -52,7 +53,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult FindbyDescription(String filtro)
         {
-            clientess? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.clientesses
                                where e.nombreCliente.Contains(filtro)
                                select e).FirstOrDefault();
 
@@ -71,7 +72,7 @@ namespace L01_2019SM601.Controllers
 
             try
             {
-                _entidadesContexto.entidades.Add(entidades);
+                _entidadesContexto.clientesses.Add(entidades);
                 _entidadesContexto.SaveChanges();
                 return Ok(entidades);
             }
@@ -88,7 +89,7 @@ namespace L01_2019SM601.Controllers
 
         public IActionResult ActualizarEntidades(int id, [FromBody] clientess entidadesModificar)
         {
-            clientess? entidadesActual = (from e in _entidadesContexto.entidades
+            clientess? entidadesActual = (from e in _entidadesContexto.clientesses
                                       where e.clienteId == id
                                       select e).FirstOrDefault();
             if (entidadesActual == null)
@@ -111,15 +112,15 @@ namespace L01_2019SM601.Controllers
         public IActionResult EliminarEntidades(int id)
         {
 
-            clientess? entidades = (from e in _entidadesContexto.entidades
+            clientess? entidades = (from e in _entidadesContexto.clientesses
                                where e.clienteId == id
                                select e).FirstOrDefault();
 
             if (entidades == null)
                 return NotFound();
 
-            _entidadesContexto.entidades.Attach(entidades);
-            _entidadesContexto.entidades.Remove(entidades);
+            _entidadesContexto.clientesses.Attach(entidades);
+            _entidadesContexto.clientesses.Remove(entidades);
             _entidadesContexto.SaveChanges();
 
             return Ok(entidades);
